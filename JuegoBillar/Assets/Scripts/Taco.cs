@@ -31,7 +31,7 @@ public class Taco : MonoBehaviour
         }
         x = bolaBlanca.transform.position.x;
         z = bolaBlanca.transform.position.z;
-        transform.position = new Vector3(x, 4.6f, z);
+        transform.position = new Vector3(x, 4.62f, z);
 
         //this.gameObject.transform.position(new Vector3(bolaBlanca));
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
