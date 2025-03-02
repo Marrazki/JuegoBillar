@@ -8,7 +8,7 @@ public class Tiro : MonoBehaviour
     public GameObject tiroInicio;
     public Rigidbody tiroRigidbody;
     //public GameObject bolaBlanca;
-    float fuerza = 2000;
+    float fuerza = 2;
     //float t;
     //float x;
     //float y;
@@ -22,13 +22,29 @@ public class Tiro : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            if (fuerza < 3) 
+            {
+                fuerza = fuerza + 0.5f;
+                Debug.Log("Fuerza: " + fuerza);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            if (fuerza > 0.5)
+            {
+                fuerza = fuerza - 0.5f;
+                Debug.Log("Fuerza: " + fuerza);
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("TIRO");
             GameObject tiroTemporal = Instantiate(tiroPrefab, tiroInicio.transform.position, tiroInicio.transform.rotation) as GameObject;
             Rigidbody rb = tiroTemporal.GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * fuerza);
+            rb.AddForce(transform.forward * 1000 * fuerza);
             Destroy(tiroTemporal, 0.3f);
             Debug.Log("Tiro destruido");
         }
