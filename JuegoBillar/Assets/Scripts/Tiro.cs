@@ -7,19 +7,22 @@ public class Tiro : MonoBehaviour
     public GameObject tiroPrefab;
     public GameObject tiroInicio;
     public Rigidbody tiroRigidbody;
-    //public GameObject bolaBlanca;
+    public GameObject bolaBlanca;
+    public Vector3 prevPos;
+    public Vector3 currVel;
     float fuerza = 2;
-    //float t;
-    //float x;
-    //float y;
-    //float z;
-    // Start is called before the first frame update
+    public GameManager gameManager;
     void Start()
     {
         
     }
-
-    // Update is called once per frame
+    /*IEnumerator CalcVelocity(Vector3 pos)
+    {
+        // Wait till it the end of the frame
+        // Velocity = DeltaPosition / DeltaTime
+        yield return new WaitForEndOfFrame();
+        currVel = (pos - bolaBlanca.transform.position) / Time.deltaTime;
+    }*/
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -38,30 +41,28 @@ public class Tiro : MonoBehaviour
                 Debug.Log("Fuerza: " + fuerza);
             }
         }
-
+        //Si la bola blanca está quieta
+        // Position at frame start
+        /*prevPos = bolaBlanca.transform.position;
+        StartCoroutine(CalcVelocity(prevPos));
+        Debug.Log(currVel);
+        if (currVel == Vector3.zero)
+        {*/
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("TIRO");
-            GameObject tiroTemporal = Instantiate(tiroPrefab, tiroInicio.transform.position, tiroInicio.transform.rotation) as GameObject;
-            Rigidbody rb = tiroTemporal.GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 1000 * fuerza);
-            Destroy(tiroTemporal, 0.3f);
-            Debug.Log("Tiro destruido");
-        }
-        
-
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-            x = Mathf.Lerp(transform.position.x, bolaBlanca.transform.position.x, t * fuerza);
-            y = Mathf.Lerp(transform.position.y, bolaBlanca.transform.position.y, t * fuerza);
-            z = Mathf.Lerp(transform.position.z, bolaBlanca.transform.position.z, t * fuerza);
-            transform.position = new Vector3(x, y, z);
-            t += Time.deltaTime /5;
-        }*/
+            {
+                Debug.Log("TIRO");
+                gameManager.tiros--;
+                Debug.Log(gameManager.tiros);
+                GameObject tiroTemporal = Instantiate(tiroPrefab, tiroInicio.transform.position, tiroInicio.transform.rotation) as GameObject;
+                Rigidbody rb = tiroTemporal.GetComponent<Rigidbody>();
+                rb.AddForce(transform.forward * 1000 * fuerza);
+                Destroy(tiroTemporal, 0.3f);
+                Debug.Log("Tiro destruido");
+            }
+        //}
     }
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        Destroy(tiroRigidbody, 0.01f);
-        Debug.Log("tiro destruido");
-    }*/
+        if (gameManager.tiros < 0)
+        {
+            gameManager.Perder();
+        }
 }

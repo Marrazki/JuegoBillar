@@ -22,7 +22,6 @@ public class TacoAnimacion : MonoBehaviour
             Rigidbody rb = tiroTemporal.GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * 10);
             Destroy(tiroTemporal, 0.05f);
-            Debug.Log("Animación terminada");
         }
     }
 }
